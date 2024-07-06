@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Lumos</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #004d4d, #003333);
+        color: #ffffff;
+        font-family: "Arial", sans-serif;
+        text-align: center;
+      }
+      .content {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+      }
+      .content h1 {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #e6f9f9;
+      }
+      .content p {
+        font-size: 18px;
+        color: #e6f9f9;
+        line-height: 1.5;
+      }
+      .logo {
+        margin-bottom: 40px;
+      }
+      .logo img {
+        width: 100px;
+        height: auto;
+      }
+      .button-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        padding: 20px;
+      }
+      .button-container button {
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #e6f9f9;
+        color: #004d4d;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-right: 50px;
+        margin-top: 20px;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .button-container button:hover {
+        background-color: #b3e0e0;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      <img src="/static/lumos_logo.jpeg" alt="Lumos Logo" />
+    </div>
+    <div class="content">
+      <h1>Welcome to Lumos</h1>
+      <p>
+        Lumos is your go-to platform for managing your tasks efficiently and
+        effectively. We provide a seamless experience to help you stay organized
+        and productive.
+      </p>
+    </div>
+    <div class="button-container">
+      <button onclick="window.location.href='/next_search'">Next</button>
+    </div>
+  </body>
+</html>

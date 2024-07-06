@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Next Search - Lumos</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #004d4d, #003333);
+        color: #ffffff;
+        font-family: "Arial", sans-serif;
+        text-align: center;
+      }
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      .header img {
+        width: 100px;
+        height: auto;
+      }
+      .content {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-width: 800px;
+      }
+      .search-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 50px;
+        width: 100%;
+      }
+      .search-box input {
+        width: 70%;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: none;
+        margin-right: 10px;
+      }
+      .search-box button {
+        padding: 15px;
+        font-size: 18px;
+        background-color: #ffcc80;
+        color: #004d4d;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .search-box button:hover {
+        background-color: #ffb74d;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .back-button {
+        margin-top: 20px;
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #e6f9f9;
+        color: #004d4d;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .back-button:hover {
+        background-color: #b3e0e0;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      /* Loading spinner */
+      .loading-container {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 77, 77, 0.9);
+        z-index: 9999;
+      }
+      .loading-container .spinner {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loading-container .loading-text {
+        margin-top: 20px;
+        font-size: 24px;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img src="/static/lumos_logo.jpeg" alt="Lumos Logo" />
+    </div>
+    <div class="content">
+      <div class="search-box">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="I would like to get a car horn"
+        />
+        <button onclick="submitSearch()">&#x2191;</button>
+      </div>
+      <button class="back-button" onclick="window.location.href='/'">
+        Back
+      </button>
+    </div>
+
+    <!-- Loading animation -->
+    <div class="loading-container" id="loading-container">
+      <div class="spinner"></div>
+      <div class="loading-text">
+        Please hold on, searching the internet for the best prices, just for you
+      </div>
+    </div>
+
+    <script>
+      async function submitSearch() {
+        const inputText = document.getElementById("search-input").value;
+        if (!inputText) {
+          alert("Please enter some text");
+          return;
+        }
+
+        // Show loading animation
+        document.getElementById("loading-container").style.display = "flex";
+
+        try {
+          const response = await fetch("/get_result", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query: inputText }),
+          });
+
+          if (response.ok) {
+            // Handle successful response, e.g., redirect or display result
+            const result = await response.json();
+            console.log(result);
+            // For example, redirect to a results page
+            //window.location.href = "/results";
+          } else {
+            alert("Failed to submit search");
+          }
+        } catch (error) {
+          alert("An error occurred while submitting the search");
+        } finally {
+          // Hide loading animation
+          document.getElementById("loading-container").style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

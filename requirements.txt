@@ -11,8 +11,9 @@ ipykernel
 python-dotenv
 tavily-python
 langchainhub
-duckduckgo-searchcls
+duckduckgo-search
 wikipedia
 numexpr
 requests
 beautifulsoup4
+uvicorn
