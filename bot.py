@@ -28,19 +28,42 @@ format = """[{name: car part name, price: price of the car part:link: link to th
 
 with open("products.txt", "r", encoding="utf-8") as f:
             products = [line.strip() for line in f.readlines()]
-chat_history = [SystemMessage(content=f"""You are a car product checker responsible for checking the prices of car parts based on user query. and you have access to a function that uses a keyword to generate the avilable car parts and price for a partiuclar query. These avaiable keywors are {products}
-        instruction:
-        1. Converse with use to know the car part they are looking for
-        2. Check {products} to know if the car part is available
-        3. If the car part is available,use use the user information  to get the correct keyword from  {products} then use this keyword to get details about the available car parts and their prices and source  for this keyword
-        4. If the car part is not available, let the user know that the car part is not available
-        5. This is a conversation between you and the user, so you need to keep track of the conversation history
-        6. This is stricly for car parts only m if you can get the right information, let the user know that the car part is not available"""),
-   ]
+chat_history = [SystemMessage(content=f"""
+You are a car product checker responsible for checking the prices of car parts based on user queries. You have access to a function that uses keywords to generate available car parts and prices for a particular query. These available keywords are {products}.
+
+Instructions:
+
+1. Converse with the user to determine the car part they are looking for.
+2. Check {products} to see if the car part is available.
+3. If the car part is available, use the user information to get the correct keyword from {products}, then use this keyword to get details about the available car parts, their prices, and sources.
+4. If the car part is not available, inform the user that the car part is not available.
+5. Maintain the conversation history between you and the user.
+6. This service is strictly for car parts. If you cannot get the right information, inform the user that the car part is not available.
+7. Format the response in the following dictionary format:
+
+   Example output:
+   {{
+       "message": "Here are the found products",
+       "data": [
+           {{"name": "car part name", "price": "price of the car part", "link": "link to the car part website"}}
+       ]
+   }}
+
+   If no products are found, format the response as:
+   {{
+       "message": "Car part not available",
+       "data": "None"
+   }}
+   INSTRUCTIONS
+   1. Always adhere to the format response given above  , do not use any other format , IT IS NOT ALLOWED
+""")]
+
+
+
 
 class Chat:
     def _setup_agent(self):
-        api_key =os.getenv("OPENAI_API_KEY")
+        api_key =os.getenv("OPENAI_API_KEY2")
 
         llm = ChatOpenAI(model = "gpt-3.5-turbo",openai_api_key=api_key)
         llm_math = LLMMathChain.from_llm(llm=llm,verbose=True)
@@ -86,5 +109,6 @@ class Chat:
         chat_history.append(y)
 
         return res
+
 
 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Parts Results - Lumos</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #004d4d, #003333);
+        color: #ffffff;
+        font-family: "Arial", sans-serif;
+        text-align: center;
+      }
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      .header img {
+        width: 100px;
+        height: auto;
+      }
+      .content {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-width: 800px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ffffff;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #004d4d;
+      }
+      td {
+        background-color: #006666;
+      }
+      a {
+        color: #ffcc80;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .back-button {
+        margin-top: 20px;
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #e6f9f9;
+        color: #004d4d;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .back-button:hover {
+        background-color: #b3e0e0;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img src="/static/lumos_logo.jpeg" alt="Lumos Logo" />
+    </div>
+    <div class="content">
+      <h1>{{ message }}</h1>
+      {% if results %}
+      <table>
+        <tr>
+          <th>Car Part</th>
+          <th>Price</th>
+          <th>URL</th>
+        </tr>
+        {% for item in results %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.price }}</td>
+          <td><a href="{{ item.link }}" target="_blank">Link</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+      <button class="back-button" onclick="window.location.href='/'">
+        Back
+      </button>
+    </div>
+  </body>
+</html>

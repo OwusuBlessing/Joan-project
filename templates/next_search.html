@@ -118,6 +118,37 @@
         font-size: 24px;
         color: #ffffff;
       }
+      .results {
+        display: none;
+        text-align: left;
+        margin-top: 20px;
+        width: 80%;
+        max-width: 800px;
+      }
+      .results table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      .results th,
+      .results td {
+        border: 1px solid #ffffff;
+        padding: 10px;
+        text-align: left;
+      }
+      .results th {
+        background-color: #004d4d;
+      }
+      .results td {
+        background-color: #006666;
+      }
+      .results a {
+        color: #ffcc80;
+        text-decoration: none;
+      }
+      .results a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -146,6 +177,23 @@
       </div>
     </div>
 
+    <!-- Results section -->
+    <div class="results" id="results-container">
+      <h2 id="results-message"></h2>
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Car Part</th>
+            <th>Price</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Results will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
     <script>
       async function submitSearch() {
         const inputText = document.getElementById("search-input").value;
@@ -167,11 +215,8 @@
           });
 
           if (response.ok) {
-            // Handle successful response, e.g., redirect or display result
             const result = await response.json();
-            console.log(result);
-            // For example, redirect to a results page
-            //window.location.href = "/results";
+            displayResults(result);
           } else {
             alert("Failed to submit search");
           }
@@ -181,6 +226,51 @@
           // Hide loading animation
           document.getElementById("loading-container").style.display = "none";
         }
+      }
+
+      function displayResults(result) {
+        const resultsContainer = document.getElementById("results-container");
+        const resultsMessage = document.getElementById("results-message");
+        const resultsTableBody = document
+          .getElementById("results-table")
+          .querySelector("tbody");
+
+        // Clear any existing results
+        resultsTableBody.innerHTML = "";
+
+        // Set the message
+        resultsMessage.textContent = result.message;
+
+        if (result.data.length === 0) {
+          resultsMessage.textContent = "No products found.";
+          resultsTableBody.innerHTML = "";
+        } else {
+          // Populate the table with new results
+          result.data.forEach((item) => {
+            const row = document.createElement("tr");
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = item.name;
+            row.appendChild(nameCell);
+
+            const priceCell = document.createElement("td");
+            priceCell.textContent = item.price;
+            row.appendChild(priceCell);
+
+            const linkCell = document.createElement("td");
+            const link = document.createElement("a");
+            link.href = item.link;
+            link.target = "_blank";
+            link.textContent = "Link";
+            linkCell.appendChild(link);
+            row.appendChild(linkCell);
+
+            resultsTableBody.appendChild(row);
+          });
+        }
+
+        // Show the results section
+        resultsContainer.style.display = "block";
       }
     </script>
   </body>
